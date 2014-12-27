@@ -18,13 +18,13 @@ def exploit(target, filter):
                     if filter.lower() in fd.read().lower():
                         cmd = 'python %s -v -t %s' % (poc_file, target)
                         detail = os.popen(cmd, 'r').read()
-                        result = re.search(r'{[^^]+}', detail).group(0)
+                        result = re.search(r'{\'[\S\s]+}', detail).group(0)
                         result = eval(result)
                         print '[*]%s %s' % (os.path.splitext(poc)[0], result['success'])                         
             else:
                 cmd = 'python %s -v -t %s' % (poc_file, target)
                 detail = os.popen(cmd, 'r').read()
-                result = re.search(r'{[^^]+}', detail).group(0)
+                result = re.search(r'{\'[\S\s]+}', detail).group(0)
                 result = eval(result)
                 print '[*]%s %s' % (os.path.splitext(poc)[0], result['success'])
                 
