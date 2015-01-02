@@ -51,9 +51,6 @@ def main():
         sys.exit()
     else:
         exploit(option.target, option.filter)
-    
-    
-
-    
+        
 if __name__ == '__main__':
     main()
