@@ -16,18 +16,20 @@ def exploit(target, filter):
             if filter:
                 with open(poc_file, 'r') as fd:
                     if filter.lower() in fd.read().lower():
-                        cmd = 'python %s -v -t %s' % (poc_file, target)
-                        detail = os.popen(cmd, 'r').read()
-                        result = re.search(r'{\'[\S\s]+}', detail).group(0)
-                        result = eval(result)
-                        print '[*]%s %s' % (os.path.splitext(poc)[0], result['success'])                         
+                        exec_poc(poc, poc_file, target)                 
             else:
-                cmd = 'python %s -v -t %s' % (poc_file, target)
-                detail = os.popen(cmd, 'r').read()
-                result = re.search(r'{\'[\S\s]+}', detail).group(0)
-                result = eval(result)
-                print '[*]%s %s' % (os.path.splitext(poc)[0], result['success'])
-                
+                exec_poc(poc, poc_file, target)
+                    
+def exec_poc(poc, poc_file, target):
+    try:
+        cmd = 'python %s -v -t %s' % (poc_file, target)
+        detail = os.popen(cmd, 'r').read()
+        result = re.search(r'{\'[\S\s]+}', detail).group(0)
+        result = eval(result)
+        print '[*]%s %s' % (os.path.splitext(poc)[0], result['success'])
+    except Exception:
+        pass   
+
 def main():
     parser = OptionParser()
     parser.add_option('-t', '--target', action='store',
